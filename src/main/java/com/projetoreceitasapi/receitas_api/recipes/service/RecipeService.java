@@ -7,31 +7,57 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Recipe service.
+ */
 @Service
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
 
+    /**
+     * Instantiates a new Recipe service.
+     *
+     * @param recipeRepository the recipe repository
+     */
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
 
-    //precisa salvar no banco
+
+    /**
+     * Save recipe recipe.
+     *
+     * @param recipe the recipe
+     * @return the recipe
+     */
     public Recipe saveRecipe(Recipe recipe){
         return recipeRepository.save(recipe);
     }
 
-    //precisa deletar do banco
-    public String deleteRecipe(Long id){
+
+    /**
+     * Delete recipe string.
+     *
+     * @param id the id
+     * @return the string
+     */
+    public void deleteRecipe(Long id){
         if (!recipeRepository.existsById(id)){
             throw new IllegalArgumentException("Recipe ID "+id+" not found.");
         }
         recipeRepository.deleteById(id);
 
-        return "Recipe ID "+id+" deleted.";
     }
 
-    //precisa atualizar no banco
+
+    /**
+     * Update recipe.
+     *
+     * @param id     the id
+     * @param recipe the recipe
+     * @return the recipe
+     */
     public Recipe update(Long id, Recipe recipe){
         Recipe entity = recipeRepository.findById(id)
                 .orElseThrow(
@@ -45,12 +71,23 @@ public class RecipeService {
         return recipeRepository.save(entity);
     }
 
-    //precisa buscar no banco
+
+    /**
+     * Find by id optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
     public Optional<Recipe> findById(Long id){
         return recipeRepository.findById(id);
     }
 
-    //precisa buscar todos no banco
+
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     public List<Recipe> findAll(){
         return recipeRepository.findAll();
     }

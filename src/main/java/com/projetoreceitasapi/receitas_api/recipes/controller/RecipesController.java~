@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,11 +22,6 @@ public class RecipesController {
 
     public RecipesController(RecipeService recipeService) {
         this.recipeService = recipeService;
-    }
-
-    @GetMapping
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello");
     }
 
     @PostMapping("/save")
@@ -47,25 +41,13 @@ public class RecipesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
+    //update
     @PutMapping("/update/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable Long id, @Valid @RequestBody Recipe recipe) {
         Optional<Recipe> updatedRecipe = Optional.ofNullable(recipeService.update(id, recipe));
         return updatedRecipe.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
-
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Recipe> findRecipeById(@PathVariable Long id) {
-        Optional<Recipe> recipe = recipeService.findById(id);
-        return recipe.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-
-    @GetMapping("/all")
-    public ResponseEntity<List> findAll() {
-        List<Recipe> recipes = recipeService.findAll();
-        return ResponseEntity.ok(recipes);
-    }
+    //findById
+    //findAll
 }
